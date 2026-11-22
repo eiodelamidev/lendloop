@@ -46,3 +46,7 @@ next-env.d.ts
 .eslintcache
 .turbo
 .swc
+
+# local working docs - detailed planning notes, prompts and references
+/.docs/
+

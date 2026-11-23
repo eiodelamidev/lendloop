@@ -50,3 +50,11 @@ next-env.d.ts
 # local working docs - detailed planning notes, prompts and references
 /.docs/
 
+# agent tooling (local only)
+AGENTS.md
+.agents/
+.claude/
+CLAUDE.md
+skills-lock.json
+convex/_generated/ai/
+

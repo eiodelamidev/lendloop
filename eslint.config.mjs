@@ -9,6 +9,8 @@ export default defineConfig([
     ".next/**",
     "node_modules/**",
     ".docs/**",
+    ".agents/**",
+    ".claude/**",
     "convex/_generated/**",
   ]),
 ]);

@@ -1,42 +1,48 @@
-"use client";
-
-import { Authenticated, Unauthenticated, useQuery } from "convex/react";
-import { SignInButton, UserButton } from "@clerk/nextjs";
-import { api } from "../convex/_generated/api";
-
-/** Phase 0B smoke test: the subject below comes from Convex, not Clerk. */
-function IdentityProof() {
-  const subject = useQuery(api.identity.subject);
-
-  return (
-    <p className="text-sm text-neutral-500">
-      {subject === undefined
-        ? "Asking Convex who you are…"
-        : `Convex sees token subject: ${subject}`}
-    </p>
-  );
-}
+import Link from "next/link";
+import { Show, SignInButton } from "@clerk/nextjs";
+import PublicToolsGrid from "@/components/public/PublicToolsGrid";
+import { buttonStyles } from "@/components/ui/Button";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center gap-4 px-6 text-center">
-      <h1 className="text-4xl font-semibold tracking-tight">LendLoop</h1>
-      <p className="text-lg text-neutral-600 dark:text-neutral-400">
-        Borrow what you need. Lend what you don&apos;t.
-      </p>
+    <main id="main-content" className="relative overflow-hidden">
+      <div className="hero-wash" aria-hidden="true" />
 
-      <Unauthenticated>
-        <SignInButton mode="modal">
-          <button className="rounded-md bg-neutral-900 px-4 py-2 text-white dark:bg-white dark:text-neutral-900">
-            Sign in to lend or borrow
-          </button>
-        </SignInButton>
-      </Unauthenticated>
+      <div className="relative mx-auto max-w-6xl px-5 pb-20 pt-16 sm:pt-24">
+        <section aria-labelledby="hero-heading" className="max-w-3xl">
+          <p className="text-small font-semibold uppercase tracking-[0.18em] text-primary">
+            Neighbourhood tool lending
+          </p>
+          <h1 id="hero-heading" className="mt-4 text-display font-bold tracking-tight text-foreground">
+            Borrow what you need.
+            <span className="block text-primary">Lend what you don&apos;t.</span>
+          </h1>
+          <p className="mt-6 max-w-xl text-subheading text-muted-foreground">
+            A simple board for sharing tools with people nearby. List what you own,
+            request what you need, and keep every loan in one place.
+          </p>
 
-      <Authenticated>
-        <UserButton />
-        <IdentityProof />
-      </Authenticated>
+          <div className="mt-8 flex flex-wrap items-center gap-3">
+            <Show when="signed-out">
+              <SignInButton mode="modal">
+                <button type="button" className={buttonStyles()}>
+                  Sign in to lend or borrow
+                </button>
+              </SignInButton>
+            </Show>
+            <Show when="signed-in">
+              <Link href="/dashboard" className={buttonStyles()}>
+                Go to dashboard
+              </Link>
+            </Show>
+            <Link href="#available-tools" className={buttonStyles({ variant: "secondary" })}>
+              Browse tools
+            </Link>
+          </div>
+        </section>
+
+        <PublicToolsGrid items={[]} />
+      </div>
     </main>
   );
 }

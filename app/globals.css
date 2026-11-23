@@ -1,24 +1,149 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+  color-scheme: light;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --app-background: #f8faf9;
+  --app-foreground: #14231f;
+  --app-surface: #ffffff;
+  --app-surface-muted: #eff4f1;
+  --app-border: #d7e1dc;
+  --app-primary: #0f5b4d;
+  --app-primary-foreground: #ffffff;
+  --app-muted-foreground: #4c5f58;
+  --app-accent: #7a4a00;
+  --app-danger: #9b2c2c;
+
+  --app-radius-sm: 0.5rem;
+  --app-radius-md: 0.75rem;
+  --app-radius-lg: 1rem;
+  --app-shadow-card: 0 1px 2px #14231f0d, 0 12px 32px #14231f0a;
+  --app-gradient-a: #d9eee7;
+  --app-gradient-b: #eef4dc;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    color-scheme: dark;
+
+    --app-background: #0e1714;
+    --app-foreground: #e8f1ed;
+    --app-surface: #15231e;
+    --app-surface-muted: #1c2d26;
+    --app-border: #2c443b;
+    --app-primary: #5fd3b3;
+    --app-primary-foreground: #06231c;
+    --app-muted-foreground: #afc3ba;
+    --app-accent: #f0b866;
+    --app-danger: #ff9b9b;
+
+    --app-shadow-card: 0 1px 2px #00000033, 0 12px 32px #00000029;
+    --app-gradient-a: #123f35;
+    --app-gradient-b: #1e3421;
   }
 }
 
+@theme inline {
+  --spacing: 0.25rem;
+
+  --text-display: clamp(2.5rem, 7vw, 4.25rem);
+  --text-heading: clamp(1.75rem, 4vw, 2.5rem);
+  --text-subheading: 1.125rem;
+  --text-body: 1rem;
+  --text-small: 0.875rem;
+
+  --color-background: var(--app-background);
+  --color-foreground: var(--app-foreground);
+  --color-surface: var(--app-surface);
+  --color-surface-muted: var(--app-surface-muted);
+  --color-border: var(--app-border);
+  --color-primary: var(--app-primary);
+  --color-primary-foreground: var(--app-primary-foreground);
+  --color-muted-foreground: var(--app-muted-foreground);
+  --color-accent: var(--app-accent);
+  --color-danger: var(--app-danger);
+
+  --radius-sm: var(--app-radius-sm);
+  --radius-md: var(--app-radius-md);
+  --radius-lg: var(--app-radius-lg);
+  --shadow-card: var(--app-shadow-card);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
+  min-height: 100vh;
+  background: var(--app-background);
+  color: var(--app-foreground);
   font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: var(--text-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 3px solid var(--app-primary);
+  outline-offset: 3px;
+  border-radius: var(--app-radius-sm);
+}
+
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 100;
+  transform: translateY(-200%);
+  border-radius: var(--app-radius-sm);
+  background: var(--app-primary);
+  color: var(--app-primary-foreground);
+  padding: 0.5rem 0.75rem;
+  font-weight: 600;
+  transition: transform 150ms ease-out;
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+}
+
+/* Public hero only: one soft, CSS-only wash. It is decorative and inert. */
+.hero-wash {
+  position: absolute;
+  inset: -20% -10% auto;
+  height: 32rem;
+  pointer-events: none;
+  background:
+    radial-gradient(45% 55% at 20% 30%, var(--app-gradient-a) 0%, transparent 70%),
+    radial-gradient(40% 50% at 80% 20%, var(--app-gradient-b) 0%, transparent 72%);
+  opacity: 0.7;
+  animation: hero-drift 18s ease-in-out infinite alternate;
+}
+
+@keyframes hero-drift {
+  from {
+    transform: translate3d(-1.5%, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(1.5%, 1%, 0) scale(1.04);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .hero-wash {
+    animation: none;
+    transform: none;
+  }
 }

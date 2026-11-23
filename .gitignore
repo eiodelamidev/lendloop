@@ -58,3 +58,4 @@ CLAUDE.md
 skills-lock.json
 convex/_generated/ai/
 
+.env*
